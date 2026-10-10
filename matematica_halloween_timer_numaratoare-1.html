@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matematică de Halloween 🎃</title>
+<style>
+:root{--orange:#ff8a24;--purple:#6e36a5;--dark:#171326;--card:#241d38;--cream:#fff4dd}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#39214e,#171326 62%);color:var(--cream);font-family:system-ui,Arial,sans-serif;min-height:100vh}
+header{text-align:center;padding:22px 12px 10px}
+h1{margin:0;color:#ff9d38;font-size:clamp(1.7rem,6vw,2.5rem)}
+header p{margin:8px 0;color:#eadcfb}
+.countdown{margin:14px auto 8px;padding:12px 16px;max-width:520px;border:2px solid #ff9d38;border-radius:16px;background:#261735;color:#ffd56b;font-weight:900;font-size:clamp(1.1rem,4vw,1.5rem);box-shadow:0 0 18px #ff8a2440}
+.countdown small{display:block;font-size:.8rem;color:#eadcfb;font-weight:600;margin-top:4px}
+main{width:min(760px,94%);margin:0 auto 36px}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+button,select,input{font:inherit}
+button{border:0;border-radius:12px;padding:11px 15px;background:var(--orange);color:#25132f;font-weight:800;cursor:pointer}
+button.secondary{background:#47305f;color:white}
+button:disabled{opacity:.5;cursor:not-allowed}
+.card{background:rgba(36,29,56,.96);border:1px solid #70458b;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 12px 35px #09061166}
+.hidden{display:none!important}
+.row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+select,input{background:#fff4dd;color:#20152e;border:2px solid #ffb45f;border-radius:10px;padding:9px;max-width:100%}
+.big{font-size:clamp(2rem,9vw,3.4rem);font-weight:900;color:#ffb35e;text-align:center;margin:12px}
+.hearts{text-align:center;font-size:2rem;letter-spacing:5px}
+#clock{font-size:1.6rem;font-weight:900;text-align:center;color:#ffd56b}
+#question{text-align:center;font-size:clamp(1.5rem,6vw,2.2rem);font-weight:800;margin:20px 0}
+#feedback{text-align:center;min-height:1.8em;font-weight:700}
+.answerrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.answerrow input{width:140px;text-align:center;font-size:1.25rem}
+small{color:#d5c3e8}
+footer{text-align:center;padding:10px;color:#c8b7da}
+</style>
+</head>
+<body>
+<header>
+<h1>🎃 Matematică de Halloween 👻</h1>
+<p>Rezolvă exercițiile, păstrează-ți inimile și bate timpul!</p>
+<div class="countdown" id="halloweenCountdown">🎃 Evenimentul Halloween în 7 zile!<small>Pregătește-te pentru provocarea specială 👻</small></div>
+<div>🦇 🎃 👻 🕸️ 🧙</div>
+</header>
+<main>
+<div class="tabs">
+<button onclick="showTab('play')">🎃 Joc</button>
+<button class="secondary" onclick="showTab('test')">🕸️ Testul zilei</button>
+<button class="secondary" onclick="showTab('learn')">📚 Ajutor</button>
+</div>
+<section id="play" class="card">
+<h2>Provocarea fantomelor</h2>
+<p>Choose timpul, apoi apasă „Pornește jocul”. Ai trei inimi!</p>
+<div class="row">
+<label for="duration">⏱️ Timer:</label>
+<select id="duration"><option value="60">1 minut</option><option value="120">2 minute</option><option value="300">5 minute</option></select>
+<label for="kind">🧮 Exerciții:</label>
+<select id="kind"><option value="mixed">Amestecate</option><option value="add">Adunare</option><option value="sub">Scădere</option><option value="mul">Înmulțire</option><option value="div">Împărțire</option></select>
+</div>
+<div id="clock">⏱️ 01:00</div>
+<div class="hearts" id="hearts">❤️ ❤️ ❤️</div>
+<div class="big" id="score">Scor: 0</div>
+<div id="question">Apasă „Pornește jocul” 👻</div>
+<div class="answerrow">
+<input id="answer" type="number" inputmode="numeric" placeholder="Răspuns" disabled>
+<button id="submit" onclick="checkAnswer()" disabled>Verifică</button>
+</div>
+<div id="feedback" aria-live="polite"></div>
+<div class="row"><button id="start" onclick="startGame()">▶️ Pornește jocul</button><button id="again" class="secondary hidden" onclick="startGame()">🔄 Joacă din nou</button></div>
+</section>
+<section id="test" class="card hidden">
+<h2>🕸️ Testul zilei</h2>
+<p>Aceste 10 exerciții se schimbă în fiecare zi. Răspunde în ordine.</p>
+<div id="dailyQuestion" class="big">Apasă pentru a începe testul.</div>
+<div class="answerrow"><input id="dailyAnswer" type="number" inputmode="numeric" placeholder="Răspuns"><button onclick="dailyCheck()">Verifică</button></div>
+<p id="dailyFeedback" style="text-align:center"></p>
+<div class="row"><button onclick="newDailyTest()">🎃 Începe testul</button></div>
+</section>
+<section id="learn" class="card hidden">
+<h2>📚 Mic ajutor</h2>
+<p>➕ Adunare: unește numerele.</p><p>➖ Scădere: află diferența.</p><p>✖️ Înmulțire: adunare repetată.</p><p>➗ Împărțire: împarte în grupe egale.</p>
+<p>Truc: citește atent exercițiul și verifică răspunsul înainte să apeși butonul.</p>
+</section>
+</main>
+<footer>Fă-ți curaj, micul matematician! 🎃👻</footer>
+<script>
+let answer=0, hearts=3, score=0, remaining=60, tick=null, playing=false;
+const $=id=>document.getElementById(id);
+function showTab(id){['play','test','learn'].forEach(x=>$(x).classList.toggle('hidden',x!==id));}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function updateClock(){$('clock').textContent='⏱️ '+fmt(remaining)}
+function setHearts(){$('hearts').textContent=Array.from({length:3},(_,i)=>i<hearts?'❤️':'🖤').join(' ')}
+function makeQuestion(){
+ let kind=$('kind').value;if(kind==='mixed')kind=['add','sub','mul','div'][Math.floor(Math.random()*4)];
+ let a,b,sign;
+ if(kind==='add'){a=rand(10,99);b=rand(1,99);answer=a+b;sign='+'}
+ if(kind==='sub'){a=rand(10,99);b=rand(1,a);answer=a-b;sign='−'}
+ if(kind==='mul'){a=rand(2,12);b=rand(2,12);answer=a*b;sign='×'}
+ if(kind==='div'){b=rand(2,12);answer=rand(2,12);a=b*answer;sign='÷'}
+ $('question').textContent=`🎃 ${a} ${sign} ${b} = ?`; $('answer').value=''; $('answer').focus();
+}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function startGame(){
+ clearInterval(tick);hearts=3;score=0;remaining=Number($('duration').value);playing=true;
+ setHearts();$('score').textContent='Scor: 0';$('feedback').textContent='Mult succes! 👻';
+ $('start').classList.add('hidden');$('again').classList.add('hidden');$('answer').disabled=false;$('submit').disabled=false;
+ updateClock();makeQuestion();
+ tick=setInterval(()=>{remaining--;updateClock();if(remaining<=0)endGame('⏰ Timpul s-a terminat!');},1000);
+}
+function checkAnswer(){
+ if(!playing)return;
+ if($('answer').value.trim()===''){ $('feedback').textContent='Scrie un răspuns mai întâi!';return;}
+ if(Number($('answer').value)===answer){score++;$('score').textContent='Scor: '+score;$('feedback').textContent='Corect! 🎉';}
+ else{hearts--;setHearts();$('feedback').textContent='Nu chiar! Răspunsul corect era '+answer+'.';if(hearts<=0){endGame('👻 Ai pierdut toate inimile!');return;}}
+ makeQuestion();
+}
+function endGame(msg){playing=false;clearInterval(tick);$('answer').disabled=true;$('submit').disabled=true;$('question').textContent=msg;$('feedback').textContent='Scor final: '+score+' 🎃';$('again').classList.remove('hidden');$('start').classList.remove('hidden');$('start').textContent='▶️ Pornește din nou';}
+$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer()});
+let daily=[],di=0,dscore=0;
+function seedForDay(){let d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()}
+function newDailyTest(){let seed=seedForDay();function rnd(n){seed=(seed*9301+49297)%233280;return Math.floor(seed/233280*n)}
+ daily=[];for(let i=0;i<10;i++){let a,b,op=rnd(4),ans;if(op===0){a=rnd(90)+10;b=rnd(90)+1;ans=a+b;daily.push({q:`${a} + ${b}`,a:ans})}else if(op===1){a=rnd(90)+10;b=rnd(a)+1;ans=a-b;daily.push({q:`${a} − ${b}`,a:ans})}else if(op===2){a=rnd(11)+2;b=rnd(11)+2;ans=a*b;daily.push({q:`${a} × ${b}`,a:ans})}else{b=rnd(10)+2;ans=rnd(10)+2;a=b*ans;daily.push({q:`${a} ÷ ${b}`,a:ans})}}
+ di=0;dscore=0;showDaily()}
+function showDaily(){if(di>=daily.length){$('dailyQuestion').textContent=`Ai terminat! Scor: ${dscore}/10 🎃`;$('dailyFeedback').textContent='Revino mâine pentru alte exerciții!';return}
+ $('dailyQuestion').textContent=`${di+1}/10: ${daily[di].q} = ?`;$('dailyAnswer').value='';$('dailyFeedback').textContent=''}
+function dailyCheck(){if(!daily.length)newDailyTest();if(di>=daily.length)return;if($('dailyAnswer').value.trim()==='')return;
+ if(Number($('dailyAnswer').value)===daily[di].a){dscore++;$('dailyFeedback').textContent='Corect! 🎉'}else{$('dailyFeedback').textContent='Răspunsul corect era '+daily[di].a}
+ di++;setTimeout(showDaily,650)}
+updateClock();
+// Numărătoare inversă până la evenimentul special din 17 octombrie 2026.
+function updateHalloweenCountdown(){
+ const eventDate = new Date(2026, 9, 17, 9, 0, 0); // ora locală a dispozitivului
+ const now = new Date();
+ const ms = eventDate - now;
+ const el = $('halloweenCountdown');
+ if(ms <= 0){
+   el.innerHTML = '🎃 Evenimentul Halloween a început!<small>Intră în joc și încearcă provocarea specială 👻</small>';
+   return;
+ }
+ const days = Math.floor(ms / 86400000);
+ const hours = Math.floor((ms % 86400000) / 3600000);
+ const minutes = Math.floor((ms % 3600000) / 60000);
+ const seconds = Math.floor((ms % 60000) / 1000);
+ el.innerHTML = `🎃 Evenimentul Halloween în ${days} ${days===1?'zi':'zile'}!<small>${hours} ore · ${minutes} minute · ${seconds} secunde rămase 👻</small>`;
+}
+updateHalloweenCountdown();
+setInterval(updateHalloweenCountdown,1000);
+</script>
+</body>
+</html>
