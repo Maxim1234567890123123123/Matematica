@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matematică – Clasa a IV-a</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>Matematică pentru clasa a IV-a</h1>
+      <p>Exersează adunarea, scăderea, înmulțirea și împărțirea!</p>
+    </header>
+
+    <section class="code-section">
+      <div class="code-box">
+        <label for="codeInput">Introdu un cod:</label>
+        <input id="codeInput" type="text" placeholder="Ex: MAXIM" />
+        <button id="redeemBtn" class="redeem-btn">Răscumpără</button>
+      </div>
+      <div id="codeMessage" class="code-message"></div>
+      <div class="credits-display">
+        💎 Credituri: <strong id="credits">0</strong>
+      </div>
+    </section>
+
+    <section class="menu">
+      <button class="category-btn active" data-type="adunare">Adunare</button>
+      <button class="category-btn" data-type="scadere">Scădere</button>
+      <button class="category-btn" data-type="inmultire">Înmulțire</button>
+      <button class="category-btn" data-type="impartire">Împărțire</button>
+    </section>
+
+    <main class="game-box">
+      <div class="question-label">Exercițiu</div>
+      <div id="question" class="question">?</div>
+
+      <input id="answer" type="number" placeholder="Scrie răspunsul" />
+      <div class="actions">
+        <button id="checkBtn" class="primary">Verifică</button>
+        <button id="nextBtn" class="secondary">Următorul</button>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="score-box">
+        <span>Scor:</span>
+        <strong id="score">0</strong>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
